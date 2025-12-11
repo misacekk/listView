@@ -18,6 +18,11 @@ public class KnihaControllerObservableList {
     TextField titulField, autorField, rokField;
     private ObservableList<Kniha> knihy = FXCollections.observableArrayList();
 @FXML
+public void initializace(){
+    knihy.add(new Kniha("2222","geer",656));
+    knihy.add(new Kniha("223","geaea",565));
+    knihaListView.setItems(knihy);
+}
     public void initialize() {
         Kniha kniha = new Kniha("Pepa", "Honza", 2015);
         knihaListView.getItems().add(kniha);
