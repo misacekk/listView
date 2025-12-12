@@ -5,6 +5,18 @@ public class Kniha {
     private String autor;
     private int rokVydani;
 
+    public void setTitul(String titul) {
+        this.titul = titul;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public void setRokVydani(int rokVydani) {
+        this.rokVydani = rokVydani;
+    }
+
     public Kniha(String titul, String autor, int rokVydani) {
         this.titul = titul;
         this.autor = autor;

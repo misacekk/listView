@@ -10,8 +10,11 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 
 public class KnihaController {
-    @FXML private ListView<Kniha> knihaListView;
-    @FXML Label titulLabel, autorLabel, rokLabel;
+
+    @FXML
+    private ListView<Kniha> knihaListView;
+    @FXML
+    Label titulLabel, autorLabel, rokLabel;
     @FXML
     TextField titulField, autorField, rokField;
 
@@ -45,6 +48,21 @@ public class KnihaController {
         knihaListView.getItems().add(nova);
     }
 
+
+    @FXML
+    private void handleUpravKnihu() {
+        Kniha vybrana = knihaListView.getSelectionModel().getSelectedItem();
+        if (vybrana != null) {
+            vybrana.setTitul(titulField.getText());
+            vybrana.setAutor(autorField.getText());
+            vybrana.setRokVydani(Integer.parseInt(rokField.getText()));
+            knihaListView.refresh();
+
+
+        }
+    }
+
+
     @FXML
     private void handleOdeberKnihu() {
         Kniha vybrana = knihaListView.getSelectionModel().getSelectedItem();
@@ -52,6 +70,7 @@ public class KnihaController {
             knihaListView.getItems().remove(vybrana);
         }
     }
+
 }
 /*package com.example.demolistview.controller;
 
