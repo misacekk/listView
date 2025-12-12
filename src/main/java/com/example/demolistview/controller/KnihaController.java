@@ -44,6 +44,14 @@ public class KnihaController {
         Kniha nova = new Kniha(titul, autor, rok);
         knihaListView.getItems().add(nova);
     }
+
+    @FXML
+    private void handleOdeberKnihu() {
+        Kniha vybrana = knihaListView.getSelectionModel().getSelectedItem();
+        if (vybrana != null) {
+            knihaListView.getItems().remove(vybrana);
+        }
+    }
 }
 /*package com.example.demolistview.controller;
 

@@ -40,6 +40,7 @@
             <TextField fx:id="titulField" />
             <TextField fx:id="autorField" GridPane.rowIndex="1" />
             <TextField fx:id="rokField" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#handleOdeberKnihu" text="Smazat" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
    </bottom>
