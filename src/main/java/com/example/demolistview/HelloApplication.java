@@ -13,6 +13,7 @@ public class HelloApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("knihy.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 620, 440);
         stage.setTitle("Hello!");
+        scene.getStylesheets().add(getClass().getResource("styly.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }

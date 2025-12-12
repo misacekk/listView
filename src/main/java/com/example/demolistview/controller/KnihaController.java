@@ -1,7 +1,6 @@
 package com.example.demolistview.controller;
 
 import com.example.demolistview.model.Kniha;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -12,74 +11,127 @@ public class KnihaController {
     @FXML
     private ListView<Kniha> knihaListView;
     @FXML
-    Label titulLabel, autorLabel, rokLabel, searchLabel;
+    private Label titulLabel, autorLabel, rokLabel, searchLabel;
     @FXML
-    TextField titulField, autorField, rokField, searchField;
+    private TextField titulField, autorField, rokField, searchField;
 
     public void initialize() {
-        Kniha kniha = new Kniha("Pepa", "Honza", 2015);
-        knihaListView.getItems().add(kniha);
-
-        Kniha kniha2 = new Kniha("Franta", "Lojza", 2022);
-        knihaListView.getItems().add(kniha2);
-
-        knihaListView.getItems().add(new Kniha("Kot", "Sop", 1999));
+        try {
+            knihaListView.getItems().add(new Kniha("Pepa", "Honza", 2015));
+            knihaListView.getItems().add(new Kniha("Franta", "Lojza", 2022));
+            knihaListView.getItems().add(new Kniha("Kot", "Sop", 1999));
+        } catch (Exception e) {
+            System.out.println("Chyba při načítání seznamu knih: " + e.getMessage());
+        }
     }
 
     @FXML
     public void handleVyberKnihu() {
-        Kniha vybrana = knihaListView.getSelectionModel().getSelectedItem();
-        if (vybrana != null) {
+        try {
+            Kniha vybrana = knihaListView.getSelectionModel().getSelectedItem();
+            if (vybrana == null) return;
             titulLabel.setText("Titul: " + vybrana.getTitul());
             autorLabel.setText("Autor: " + vybrana.getAutor());
             rokLabel.setText("Rok: " + vybrana.getRokVydani());
+        } catch (Exception e) {
+            System.out.println("Chyba při výběru knihy: " + e.getMessage());
         }
     }
 
     @FXML
     private void handlePridejKnihu() {
-        String titul = titulField.getText();
-        String autor = autorField.getText();
-        int rok = Integer.parseInt(rokField.getText());
+        try {
+            String titul = titulField.getText();
+            String autor = autorField.getText();
+            String rokText = rokField.getText();
 
-        Kniha nova = new Kniha(titul, autor, rok);
-        knihaListView.getItems().add(nova);
+            if (titul == null || titul.isBlank()) return;
+            if (autor == null || autor.isBlank()) return;
+            if (rokText == null || rokText.isBlank()) return;
+
+            int rok;
+            try {
+                rok = Integer.parseInt(rokText);
+            } catch (NumberFormatException e) {
+                System.out.println("Neplatný rok!");
+                return;
+            }
+
+            knihaListView.getItems().add(new Kniha(titul, autor, rok));
+
+        } catch (Exception e) {
+            System.out.println("Chyba při přidávání knihy: " + e.getMessage());
+        }
     }
 
     @FXML
     private void handleSearchKnihu() {
-        String hledanyTitul = searchField.getText().trim();
-
-        if (hledanyTitul.isEmpty()) {
-            searchLabel.setText("Zadej titul!");
-            return;
-        }
-
-        for (Kniha k : knihaListView.getItems()) {
-            if (k.getTitul().equalsIgnoreCase(hledanyTitul)) {
-                knihaListView.getSelectionModel().select(k);
-                handleVyberKnihu();
-                break;
+        try {
+            String hledanyTitul = searchField.getText();
+            if (hledanyTitul == null || hledanyTitul.isBlank()) {
+                searchLabel.setText("Zadej titul!");
+                return;
             }
+
+            boolean nalezeno = false;
+
+            for (Kniha k : knihaListView.getItems()) {
+                if (k != null && k.getTitul() != null &&
+                        k.getTitul().equalsIgnoreCase(hledanyTitul.trim())) {
+                    knihaListView.getSelectionModel().select(k);
+                    handleVyberKnihu();
+                    nalezeno = true;
+                    break;
+                }
+            }
+
+            if (!nalezeno) searchLabel.setText("Nenalezena");
+
+        } catch (Exception e) {
+            System.out.println("Chyba při hledání knihy: " + e.getMessage());
         }
     }
 
     @FXML
     private void handleUpravKnihu() {
-        Kniha vybrana = knihaListView.getSelectionModel().getSelectedItem();
-        if (vybrana != null) {
-            vybrana.setTitul(titulField.getText());
-            vybrana.setAutor(autorField.getText());
-            vybrana.setRokVydani(Integer.parseInt(rokField.getText()));
+        try {
+            Kniha vybrana = knihaListView.getSelectionModel().getSelectedItem();
+            if (vybrana == null) return;
+
+            String titul = titulField.getText();
+            String autor = autorField.getText();
+            String rokText = rokField.getText();
+
+            if (titul == null || titul.isBlank()) return;
+            if (autor == null || autor.isBlank()) return;
+            if (rokText == null || rokText.isBlank()) return;
+
+            int rok;
+            try {
+                rok = Integer.parseInt(rokText);
+            } catch (NumberFormatException e) {
+                System.out.println("Neplatný rok!");
+                return;
+            }
+
+            vybrana.setTitul(titul);
+            vybrana.setAutor(autor);
+            vybrana.setRokVydani(rok);
+
             knihaListView.refresh();
+
+        } catch (Exception e) {
+            System.out.println("Chyba při úpravě knihy: " + e.getMessage());
         }
     }
 
     @FXML
     private void handleOdeberKnihu() {
-        Kniha vybrana = knihaListView.getSelectionModel().getSelectedItem();
-        if (vybrana != null) {
-            knihaListView.getItems().remove(vybrana);
+        try {
+            Kniha vybrana = knihaListView.getSelectionModel().getSelectedItem();
+            if (vybrana != null) knihaListView.getItems().remove(vybrana);
+        } catch (Exception e) {
+            System.out.println("Chyba při odebírání knihy: " + e.getMessage());
         }
     }
 }
