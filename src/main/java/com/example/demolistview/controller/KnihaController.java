@@ -59,7 +59,7 @@ public class KnihaController {
             if (k.getTitul().equalsIgnoreCase(hledanyTitul)) {
                 knihaListView.getSelectionModel().select(k);
                 handleVyberKnihu();
-                return;
+                break;
             }
         }
     }
