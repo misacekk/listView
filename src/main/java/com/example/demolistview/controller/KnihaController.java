@@ -7,16 +7,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
-import java.io.IOException;
-
 public class KnihaController {
 
     @FXML
     private ListView<Kniha> knihaListView;
     @FXML
-    Label titulLabel, autorLabel, rokLabel;
+    Label titulLabel, autorLabel, rokLabel, searchLabel;
     @FXML
-    TextField titulField, autorField, rokField;
+    TextField titulField, autorField, rokField, searchField;
 
     public void initialize() {
         Kniha kniha = new Kniha("Pepa", "Honza", 2015);
@@ -48,6 +46,23 @@ public class KnihaController {
         knihaListView.getItems().add(nova);
     }
 
+    @FXML
+    private void handleSearchKnihu() {
+        String hledanyTitul = searchField.getText().trim();
+
+        if (hledanyTitul.isEmpty()) {
+            searchLabel.setText("Zadej titul!");
+            return;
+        }
+
+        for (Kniha k : knihaListView.getItems()) {
+            if (k.getTitul().equalsIgnoreCase(hledanyTitul)) {
+                knihaListView.getSelectionModel().select(k);
+                handleVyberKnihu();
+                return;
+            }
+        }
+    }
 
     @FXML
     private void handleUpravKnihu() {
@@ -57,11 +72,8 @@ public class KnihaController {
             vybrana.setAutor(autorField.getText());
             vybrana.setRokVydani(Integer.parseInt(rokField.getText()));
             knihaListView.refresh();
-
-
         }
     }
-
 
     @FXML
     private void handleOdeberKnihu() {
@@ -70,8 +82,8 @@ public class KnihaController {
             knihaListView.getItems().remove(vybrana);
         }
     }
-
 }
+
 /*package com.example.demolistview.controller;
 
 import com.example.demolistview.model.Kniha;
